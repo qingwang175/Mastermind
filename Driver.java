@@ -7,7 +7,6 @@ public class Driver {
 		char[] array = {'Y', 'R', 'B', 'O'};
 		
 		Game game = new Game(array, 12, 4);
-		
 	}
 
 }

@@ -12,7 +12,7 @@ public class Game {
 	char[][] clues;  //Clues provided by the CodeMaker 
 	ArrayList<Character> validCodes = new ArrayList<Character>(Arrays.asList('B', 'G', 'O', 'P', 'R', 'Y'));
 	
-	//Constructor depends on how many tries the player gets (numTries) and how many orbs per code (length)
+	//Constructor depends on how many tries the player gets (numTries) and how many orbs per code (length) and what CodeMaker code is used
 	public Game (char[] code, int numTries, int length) {
 		this.numTries = numTries;
 		this.code = code;
@@ -56,7 +56,7 @@ public class Game {
 				return false;
 			}
 		}
-			
+		tries[i] = code;
 		triesMade++;
 		return true;
 	}
