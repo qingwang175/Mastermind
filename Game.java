@@ -5,6 +5,9 @@ import java.util.Arrays;
 
 public class Game {
 	
+	int makerScore = 0;
+	int breakerScore = 0;
+	
 	char[] code;   //Make by CodeMaker
 	int numTries;  //How many tries the CodeBreaker gets
 	int triesMade = 0;  //How many tries have been made by CodeBreaker
@@ -56,8 +59,31 @@ public class Game {
 				return false;
 			}
 		}
-		tries[i] = code;
+		tries[triesMade] = code;  //QUESTION: See 4 lines above
 		triesMade++;
+		addScores();
 		return true;
+	}
+	
+	//Shows the clue for whichever try is asked
+	//If that try has not been made yet, just system output the problem
+	public void showClue(int triesMade) {
+		return;
+	}
+	
+	//Used when a guess is made, the scores for the game are calculated and adjusted
+	private void addScores() {
+		return;
+	}
+	
+	//Shows the current scores for each player
+	public void showScores() {
+		return;
+	}
+	
+	//Should give some game stats, some ending bullshit
+	public void endGame() {
+		showScores();
+		return;
 	}
 }
