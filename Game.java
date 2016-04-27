@@ -2,7 +2,7 @@ package mastermind;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
+import java.util.Random;
 public class Game {
 	
 	int blackScore = 0;
@@ -18,48 +18,48 @@ public class Game {
 	//Constructor depends on how many tries the player gets (numTries) and how many orbs per code (length) and what CodeMaker code is used
 	public Game (char[] code, int numTries, int length) {
 		this.numTries = numTries;
+		code = new char[length];
 		this.code = code;
 		tries = new char[numTries][length];
 		clues = new String[numTries];
-		code = new char[length];
 	}
 		
 	//Returns true if Code is in right format, else returns false and system outputs a message based on what failure
-	public boolean checkCode(char[] code) {
+	public boolean checkCode(char[] trycode) {
 		int counter = 0; 
 			
-		if(code.length != 4) {
-			if(code.length > 4) {
+		if(trycode.length != code.length) {
+			if(trycode.length > code.length) {
 				System.out.println("Code is too long.");
 			} else {
 				System.out.println("Code is too short.");
 			}
 			return false;
 		}
-		for(char c : code) {
+		for(char c : trycode) {
 			if(!validCodes.contains(c)) {	
 				System.out.println(c + " is not a valid color choice.");
 			} else {
 				counter++;
 			}
 		}
-		if(counter < 4) {  //This means that one of the codes were invalid
+		if(counter < code.length) {  //This means that one of the codes were invalid
 			return false;
 		}
 		return true;
 	}
 		
 	//True if it is a valid try by the CodeBreaker, false if it is not 
-	public boolean makeGuess(char[] code) {
-		if(!checkCode(code)) {
+	public boolean makeGuess(char[] trycode) {
+		if(!checkCode(trycode)) {
 			return false;
 		}
 		for(int i = 0; i < triesMade; i++) {     //Repeat guess
-			if(code == tries[i]) {      //QUESTION: Does this compare rows or columns? Need it to compare rows
+			if(trycode == tries[i]) {      //QUESTION: Does this compare rows or columns? Need it to compare rows
 				return false;
 			}
 		}
-		tries[triesMade] = code;  //QUESTION: See 4 lines above
+		tries[triesMade] = trycode;  //QUESTION: See 4 lines above
 		triesMade++;
 		return true;
 	}
@@ -70,20 +70,20 @@ public class Game {
 		char[] temp = {0, 0, 0, 0};   //How many of the four are accounted for
 		String output = null;
 		
-		for(int i = 0; i < 4; i++) {
+		for(int i = 0; i < code.length; i++) {
 			if(tries[triesMade][i] == code[i]) {
 				temp[i] = 1;
 				output += 'B';
-				blackScore++;
+				this.blackScore++;
 				continue;
 			}
 		}
-		for(int i = 0; i < 4; i++) {
-			for(int j = i + 1; j < 4; j++) {
+		for(int i = 0; i < code.length; i++) {
+			for(int j = i + 1; j < code.length; j++) {
 				if(tries[triesMade][i] == code[j] && tries[triesMade][j] != code[j]) {
 					temp[j] = 1;
 					output += 'W';
-					whiteScore++;
+					this.whiteScore++;
 				}
 			}
 		}
@@ -111,7 +111,7 @@ public class Game {
 	}
 	
 	public boolean isGameOver() {
-		if(triesMade > 12) {
+		if(triesMade > numTries) {
 			System.out.print("You lose. The code was ");
 			for(char i : code) {
 				System.out.print(code[i]);
@@ -128,5 +128,15 @@ public class Game {
 		System.out.println("You guessed the code in " + triesMade + " tries.");
 		System.out.println("You totaled " + blackScore + " black pegs and " + whiteScore + " white pegs.");
 		return;
+	}
+	
+	public void makeNewGame(){
+		Random random = new Random();
+		int index=0;
+		for (int i=0; i<code.length;i++){
+			index = random.nextInt(validCodes.size());
+			code[i]=validCodes.get(index);
+		}
+		
 	}
 }
