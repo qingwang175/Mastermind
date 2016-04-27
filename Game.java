@@ -55,11 +55,11 @@ public class Game {
 			return false;
 		}
 		for(int i = 0; i < triesMade; i++) {     //Repeat guess
-			if(trycode == tries[i]) {      //QUESTION: Does this compare rows or columns? Need it to compare rows
+			if(trycode == tries[i]) {      //QUESTION: Does this compare rows or columns? Need it to compare rows ( I think yes)
 				return false;
 			}
 		}
-		tries[triesMade] = trycode;  //QUESTION: See 4 lines above
+		tries[triesMade] = trycode; 
 		triesMade++;
 		return true;
 	}
@@ -68,34 +68,34 @@ public class Game {
 	//If that try has not been made yet, just system output the problem
 	public String showClue() {
 		char[] temp = {0, 0, 0, 0};   //How many of the four are accounted for
-		String output = null;
-		
+		int bMatch = 0;
+		int wMatch = 0;
 		for(int i = 0; i < code.length; i++) {
-			if(tries[triesMade][i] == code[i]) {
+			if(tries[triesMade - 1][i] == code[i]) {
 				temp[i] = 1;
-				output += 'B';
+				bMatch++;
 				this.blackScore++;
 				continue;
 			}
 		}
 		for(int i = 0; i < code.length; i++) {
-			for(int j = i + 1; j < code.length; j++) {
-				if(tries[triesMade][i] == code[j] && tries[triesMade][j] != code[j]) {
+			for(int j = 0; j < code.length; j++) {
+				if(tries[triesMade - 1][i] == code[j] && temp[j] == 0) {
 					temp[j] = 1;
-					output += 'W';
+					wMatch++;
 					this.whiteScore++;
 				}
 			}
 		}
 		
-		clues[triesMade - 1] = output;
+		clues[triesMade - 1] = bMatch + " black peg(s) and " + wMatch + " white peg(s).";   //This is what is put into the clues
 		
-		if(output == "BBBB") {
+		if(bMatch == 4) {
 			endGame();
 			return "Congratulations!";
 		}
 		
-		return "Feedback: " + output;
+		return "Result: " + bMatch + "black peg(s) and " + wMatch + " white peg(s).";
 	}
 	
 	public String showOldClue(int whichTry) {
@@ -123,7 +123,7 @@ public class Game {
 		return false;
 	}
 	
-	//Should give some game stats, some ending bullshit
+	//Should give some game stats, some ending stuff
 	private void endGame() {
 		System.out.println("You guessed the code in " + triesMade + " tries.");
 		System.out.println("You totaled " + blackScore + " black pegs and " + whiteScore + " white pegs.");
