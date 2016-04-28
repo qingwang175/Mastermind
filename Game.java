@@ -1,14 +1,19 @@
+/**
+ * @author Qing Wang (qw2328)
+ * @author Katelyn Ge (kbg488)
+ * EE422C Bonus Assignment
+ */
+
 package mastermind;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+
 public class Game {
 	
 	int blackScore = 0;
 	int whiteScore = 0;
-	public int gamesWon = 0;
-	public int gamesLost = 0;
 	
 	char[] code;   //Make by CodeMaker
 	int numTries;  //How many tries the CodeBreaker gets
@@ -19,10 +24,9 @@ public class Game {
 	boolean gameWon= false;
 	
 	//Constructor depends on how many tries the player gets (numTries) and how many orbs per code (length) and what CodeMaker code is used
-	public Game (char[] code, int numTries, int length) {
+	public Game (int numTries, int length) {
 		this.numTries = numTries;
 		code = new char[length];
-		this.code = code;
 		tries = new char[numTries][length];
 		clues = new String[numTries];
 	}
@@ -31,7 +35,7 @@ public class Game {
 	public boolean checkCode(char[] trycode) {
 		int counter = 0; 
 			
-		if(trycode.length != code.length) {
+		if(trycode.length != code.length) {   //Checks code length
 			if(trycode.length > code.length) {
 				System.out.println("INVALID INPUT: Code is too long.");
 			} else {
@@ -39,7 +43,7 @@ public class Game {
 			}
 			return false;
 		}
-		for(char c : trycode) {
+		for(char c : trycode) {    //Checks the letters from the pool of colors
 			if(!validCodes.contains(c)) {	
 				System.out.println("INVALID INPUT: "+c + " is not a valid color choice.");
 			} else {
@@ -62,7 +66,7 @@ public class Game {
 				return false;
 			}
 		}
-		tries[triesMade] = trycode; 
+		tries[triesMade] = trycode;  //Holds the tries in case you want to go back to them (extra feature, future?)
 		triesMade++;
 		return true;
 	}
@@ -73,7 +77,7 @@ public class Game {
 		char[] temp = {0, 0, 0, 0};   //How many of the four are accounted for
 		int bMatch = 0;
 		int wMatch = 0;
-		for(int i = 0; i < code.length; i++) {
+		for(int i = 0; i < code.length; i++) {      //Checks for black pegs
 			if(tries[triesMade - 1][i] == code[i]) {
 				temp[i] = 1;
 				bMatch++;
@@ -81,7 +85,7 @@ public class Game {
 				continue;
 			}
 		}
-		for(int i = 0; i < code.length; i++) {
+		for(int i = 0; i < code.length; i++) {   //Checks for white pegs through not-black-peg spots
 			for(int j = 0; j < code.length; j++) {
 				if(tries[triesMade - 1][i] == code[j] && temp[j] == 0) {
 					temp[j] = 1;
@@ -93,18 +97,19 @@ public class Game {
 		
 		clues[triesMade - 1] = bMatch + " black peg(s) and " + wMatch + " white peg(s).";   //This is what is put into the clues
 		
-		if(bMatch == code.length) {
+		if(bMatch == code.length) {      //All the black pegs are taken, so each letter is correct and you win!!!!!!!!!
 			endGame();
 			gameWon = true;
 			return "Congratulations!";
 		}
 		
-		return "Result: " + bMatch + " black peg(s) and " + wMatch + " white peg(s).";
+		return "Result: " + bMatch + " black peg(s) and " + wMatch + " white peg(s).";      //The statement to print showing how close you were
 	}
 	
+	//If you were to type in a certain try, you can see how close you were for that try 
 	public String showOldClue(int whichTry) {
-		if(whichTry == 0) {
-			return "Feedback for 1st try: " + clues[whichTry];
+		if(whichTry == 0) {      //Semantic differences 
+			return "Feedback for 1st try: " + clues[whichTry];      
 		} else if (whichTry == 1) {
 			return "Feedback for 2nd try: " + clues[whichTry];
 		} else if (whichTry == 2) {
@@ -114,6 +119,7 @@ public class Game {
 		return "Feedback for " + (whichTry + 1) + "th try: " + clues[whichTry];
 	}
 	
+	//Tells you if the game is over, and revelas the code
 	public boolean isGameOver() {
 		if(triesMade >= numTries) {
 			System.out.print("You lose. The code was ");
@@ -134,6 +140,7 @@ public class Game {
 		return;
 	}
 	
+	//New game with a randomized code
 	public void makeNewGame(){
 		Random random = new Random();
 		int index=0;
@@ -143,16 +150,10 @@ public class Game {
 		}
 	}
 	
+	//Setter for winning
 	public void win() {
 		gameWon = true;
 		return;
 	}
 	
-	public void addScore(boolean won) {
-		if (won == false) {
-			gamesLost++;
-		} else {
-			gamesWon++;
-		}
-	}
 }
