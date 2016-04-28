@@ -14,6 +14,7 @@ public class Game {
 	char[][] tries;  //The combinations of validCodes that have been guessed by the CodeBreaker
 	String[] clues;  //Clues provided by the CodeMaker 
 	ArrayList<Character> validCodes = new ArrayList<Character>(Arrays.asList('B', 'G', 'O', 'P', 'R', 'Y'));
+	boolean gameWon= false;
 	
 	//Constructor depends on how many tries the player gets (numTries) and how many orbs per code (length) and what CodeMaker code is used
 	public Game (char[] code, int numTries, int length) {
@@ -30,15 +31,15 @@ public class Game {
 			
 		if(trycode.length != code.length) {
 			if(trycode.length > code.length) {
-				System.out.println("Code is too long.");
+				System.out.println("INVALID INPUT: Code is too long.");
 			} else {
-				System.out.println("Code is too short.");
+				System.out.println("INVALID INPUT: Code is too short.");
 			}
 			return false;
 		}
 		for(char c : trycode) {
 			if(!validCodes.contains(c)) {	
-				System.out.println(c + " is not a valid color choice.");
+				System.out.println("INVALID INPUT: "+c + " is not a valid color choice.");
 			} else {
 				counter++;
 			}
@@ -92,10 +93,11 @@ public class Game {
 		
 		if(bMatch == 4) {
 			endGame();
+			gameWon = true;
 			return "Congratulations!";
 		}
 		
-		return "Result: " + bMatch + "black peg(s) and " + wMatch + " white peg(s).";
+		return "Result: " + bMatch + " black peg(s) and " + wMatch + " white peg(s).";
 	}
 	
 	public String showOldClue(int whichTry) {
@@ -111,13 +113,13 @@ public class Game {
 	}
 	
 	public boolean isGameOver() {
-		if(triesMade > numTries) {
+		if(triesMade >= numTries) {
 			System.out.print("You lose. The code was ");
-			for(char i : code) {
+			for(int i = 0; i<code.length;i++) {
 				System.out.print(code[i]);
 			}
 			System.out.println(".");
-			System.out.println("You totaled " + blackScore + " black pegs and " + whiteScore + " white pegs.");
+			//System.out.println("You totaled " + blackScore + " black pegs and " + whiteScore + " white pegs.");
 			return true;
 		}
 		return false;
