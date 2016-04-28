@@ -15,7 +15,6 @@ public class Driver {
 		String codemaker="";
 		boolean running = true;
 		boolean newGame = true;
-		boolean correctInput = false;
 		try {
 			while (running) {
 				if (newGame) {	//start a new game
@@ -74,26 +73,22 @@ public class Driver {
 				} else {
 					System.out.println("You have "+(triesLeft)+" guesses left");
 				}
-				while (!correctInput) {
+				while (true) {
 					System.out.println("What is your next guess?");
 					System.out.println("Type in "+ (game.code.length) +  " characters for your guess and press OK.");
 					answer = JOptionPane.showInputDialog("Enter guess: ");
 					input = answer.toCharArray();
 					if (game.makeGuess(input)) {
-						correctInput = true;
 						System.out.print(answer+ "-->");
 						break;
 					}
 					else{
-						correctInput = false;
 						System.out.println();
 					}
 				}
 				System.out.println("\n" + game.showClue() + "\n");				//this isn't showing clues. why not?
 				
-				
-				if (correctInput || game.gameWon){
-					correctInput = false;			//reset code check
+				if (game.gameWon || game.isGameOver()){
 					if (game.gameWon){
 						game.addScore(true);
 					}

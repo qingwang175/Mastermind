@@ -93,7 +93,7 @@ public class Game {
 		
 		clues[triesMade - 1] = bMatch + " black peg(s) and " + wMatch + " white peg(s).";   //This is what is put into the clues
 		
-		if(bMatch == 4) {
+		if(bMatch == code.length) {
 			endGame();
 			gameWon = true;
 			return "Congratulations!";
