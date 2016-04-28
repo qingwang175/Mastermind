@@ -139,6 +139,5 @@ public class Game {
 			index = random.nextInt(validCodes.size());
 			code[i]=validCodes.get(index);
 		}
-		
 	}
 }

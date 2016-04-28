@@ -1,10 +1,6 @@
 package mastermind;
 
-import java.util.Arrays;
-
 import javax.swing.JOptionPane;
-
-import java.io.Console;
 
 public class Driver {
 
@@ -33,20 +29,20 @@ public class Driver {
 					if (running) {
 					while(true){
 					answer = JOptionPane.showInputDialog("Insert number of maximum tries: ");
-					if (isNumber(answer)){
+					if (isNumber(answer) && Integer.parseInt(answer) > 0){
 						break;
 					}
 					else{
-						System.out.println("INVALID: insert an integer");
+						System.out.println("INVALID: insert a positive integer");
 					}
 					}
 					while (true){
 					result = JOptionPane.showInputDialog("Insert number of pegs: ");
-					if (isNumber(result)){
+					if (isNumber(result) && Integer.parseInt(answer) > 0){
 						break;
 					}
 					else{
-						System.out.println("INVALID: insert an integer");
+						System.out.println("INVALID: insert a positive integer");
 					}
 					}
 					choice = JOptionPane.showConfirmDialog(null, "You have the option to create your own code for another player to guess. Click Yes if you would like to. Click No if you would like a random code generated for you. ",
