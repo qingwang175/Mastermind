@@ -10,8 +10,6 @@ public class Driver {
 		char[] input={};
 		Game game = new Game(array, 12, 4);
 		int choice = 0;
-		int gameswon = 0;
-		int gameslost = 0;
 		String answer="";
 		String result="";
 		String codemaker="";
@@ -91,18 +89,18 @@ public class Driver {
 						System.out.println();
 					}
 				}
-				correctInput = false;				//reset code check
 				System.out.println("\n" + game.showClue() + "\n");				//this isn't showing clues. why not?
 				
 				
-				if (game.isGameOver() || game.gameWon){
+				if (correctInput || game.gameWon){
+					correctInput = false;			//reset code check
 					if (game.gameWon){
-						gameswon++;
+						game.addScore(true);
 					}
 					else{
-						gameslost++;
+						game.addScore(false);
 					}
-					System.out.println("Games won: "+gameswon+ ", Games lost: "+gameslost);
+					System.out.println("Games won: "+ game.gamesWon+ ", Games lost: "+game.gamesLost);
 					choice = JOptionPane.showConfirmDialog(null,
 							"Would you like to play again?",
 							null, JOptionPane.YES_NO_OPTION);

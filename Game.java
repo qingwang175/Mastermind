@@ -7,6 +7,8 @@ public class Game {
 	
 	int blackScore = 0;
 	int whiteScore = 0;
+	public int gamesWon = 0;
+	public int gamesLost = 0;
 	
 	char[] code;   //Make by CodeMaker
 	int numTries;  //How many tries the CodeBreaker gets
@@ -138,6 +140,19 @@ public class Game {
 		for (int i=0; i<code.length;i++){
 			index = random.nextInt(validCodes.size());
 			code[i]=validCodes.get(index);
+		}
+	}
+	
+	public void win() {
+		gameWon = true;
+		return;
+	}
+	
+	public void addScore(boolean won) {
+		if (won == false) {
+			gamesLost++;
+		} else {
+			gamesWon++;
 		}
 	}
 }
